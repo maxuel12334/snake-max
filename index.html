@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="title" content="Snake Max | Jogo da Cobrinha Maxuel" />
+    <meta name="description" content="Jogue Snake Max, o jogo da cobrinha criado por Maxuel, com progressão, biomas, bosses e estilo arcade moderno." />
+    <meta name="keywords" content="Snake Max, jogo da cobrinha, maxuel, jogo de cobrinha max, cobrinha, snake game" />
+    <meta name="author" content="Maxuel" />
+    <meta property="og:title" content="Snake Max | Jogo da Cobrinha Maxuel" />
+    <meta property="og:description" content="Jogue Snake Max, o jogo da cobrinha criado por Maxuel, com progressão, biomas, bosses e estilo arcade moderno." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Snake Max" />
+    <meta name="theme-color" content="#07111f" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.json" />
+    <title>Snake Max | Jogo da Cobrinha Maxuel</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-theme="dark">
+    <main class="game-shell">
+      <section class="game-card">
+        <header class="topbar">
+          <div>
+            <h1>🐍 Snake Legends: Ascension</h1>
+            <p class="subtitle">Um universo de progressão, biomas, bosses, habilidades e longevidade competitiva.</p>
+            <div class="creator-pill">Criado por @Maxuel</div>
+          </div>
+          <div class="topbar-actions">
+            <button id="menuBtn" class="secondary">Menu</button>
+            <button id="pauseBtn" class="secondary">Pausar</button>
+            <button id="restartBtn">Reiniciar</button>
+          </div>
+        </header>
+
+        <div class="hud">
+          <div class="hud-item"><span class="label">Pontuação</span><strong id="score">0</strong></div>
+          <div class="hud-item"><span class="label">Recorde</span><strong id="highScore">0</strong></div>
+          <div class="hud-item"><span class="label">Nível</span><strong id="level">1</strong></div>
+          <div class="hud-item"><span class="label">Moedas</span><strong id="coins">0</strong></div>
+        </div>
+
+        <div class="content-grid">
+          <div class="game-column">
+            <div class="canvas-wrap">
+              <canvas id="game" width="480" height="480"></canvas>
+              <div id="overlay" class="overlay"></div>
+            </div>
+            <div class="controls">
+              <p>Setas/WASD para mover • P para pausar • Espaço para reiniciar • E para abrir configurações.</p>
+            </div>
+          </div>
+
+          <aside class="sidebar">
+            <section class="panel profile-panel">
+              <div class="avatar-row">
+                <div id="avatarBadge" class="avatar-badge">🐍</div>
+                <div>
+                  <h2 id="playerNameText">Jogador</h2>
+                  <p id="playerLevelText">Nível 1 • 0 XP</p>
+                </div>
+              </div>
+              <div class="xp-bar"><span id="xpFill"></span></div>
+              <div class="xp-meta">
+                <span id="xpText">0 / 100 XP</span>
+                <span id="modeText">Clássico</span>
+              </div>
+              <div class="stat-row">
+                <span>Prestígio</span>
+                <strong id="prestigeText">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Temporada</span>
+                <strong id="seasonText">S1 • 0</strong>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-title-row">
+                <h3>Árvore de Habilidades</h3>
+                <span id="skillPoints" class="pill-light">0</span>
+              </div>
+              <div id="skillTree" class="skill-tree"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-title-row">
+                <h3>Power-ups</h3>
+                <span class="pill-light">ativos</span>
+              </div>
+              <div id="powerupList" class="powerup-list"></div>
+            </section>
+
+            <section class="panel">
+              <h3>Resumo</h3>
+              <ul class="info-list">
+                <li><span>Partidas</span><strong id="gamesPlayed">0</strong></li>
+                <li><span>Comidas</span><strong id="foodEaten">0</strong></li>
+                <li><span>Tempo</span><strong id="totalTime">0s</strong></li>
+                <li><span>Vida</span><strong id="healthText">100</strong></li>
+              </ul>
+            </section>
+
+            <section class="panel">
+              <h3>Desafios</h3>
+              <div id="challengeList" class="challenge-list"></div>
+            </section>
+
+            <section class="panel">
+              <h3>Ranking Local</h3>
+              <ol id="rankingList" class="ranking-list"></ol>
+            </section>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <div id="settingsPanel" class="settings-panel hidden" aria-hidden="true">
+      <div class="settings-card">
+        <div class="settings-header">
+          <h2>Configurações</h2>
+          <button id="closeSettingsBtn" class="secondary">Fechar</button>
+        </div>
+        <label>
+          <span>Nome do jogador</span>
+          <input id="playerNameInput" type="text" maxlength="16" placeholder="Jogador" />
+        </label>
+        <label>
+          <span>Avatar</span>
+          <select id="avatarSelect">
+            <option value="🐍">🐍 Cobra</option>
+            <option value="🦎">🦎 Lagarto</option>
+            <option value="🤖">🤖 Robô</option>
+            <option value="🌈">🌈 Neon</option>
+            <option value="🔥">🔥 Fogo</option>
+          </select>
+        </label>
+        <label>
+          <span>Modo</span>
+          <select id="modeSelect">
+            <option value="classic">Clássico</option>
+            <option value="survival">Sobrevivência</option>
+            <option value="hardcore">Hardcore</option>
+            <option value="maze">Labirinto</option>
+            <option value="infinite">Infinito</option>
+            <option value="zen">Zen</option>
+          </select>
+        </label>
+        <label>
+          <span>Bioma</span>
+          <select id="biomeSelect">
+            <option value="forest">Floresta</option>
+            <option value="desert">Deserto</option>
+            <option value="volcano">Vulcão</option>
+            <option value="ice">Gelo</option>
+            <option value="space">Espaço</option>
+            <option value="cyber">Cyberpunk</option>
+          </select>
+        </label>
+        <label>
+          <span>Clima</span>
+          <select id="weatherSelect">
+            <option value="clear">Claro</option>
+            <option value="rain">Chuva</option>
+            <option value="snow">Neve</option>
+            <option value="storm">Tempestade</option>
+            <option value="fog">Neblina</option>
+          </select>
+        </label>
+        <label>
+          <span>Efeitos sonoros</span>
+          <input id="soundToggle" type="checkbox" checked />
+        </label>
+        <label>
+          <span>Música</span>
+          <input id="musicToggle" type="checkbox" checked />
+        </label>
+        <label>
+          <span>Mostrar grid</span>
+          <input id="gridToggle" type="checkbox" checked />
+        </label>
+        <label>
+          <span>Qualidade</span>
+          <select id="qualitySelect">
+            <option value="low">Baixa</option>
+            <option value="medium">Média</option>
+            <option value="high">Alta</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay hidden">
+      <div class="loading-card">
+        <div class="loading-snake">🐍</div>
+        <h2>Carregando arena</h2>
+        <div class="loading-bar"><span id="loadingBar"></span></div>
+        <p id="loadingText">Preparando o mapa...</p>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
