@@ -23,7 +23,7 @@ git init
 git add .
 git commit -m "Publicar Snake Max no GitHub Pages"
 git branch -M main
-git remote add origin https://github.com/<seu-usuario>/<seu-repositorio>.git
+git remote add origin https://github.com/maxuel12334/snake-max.git
 git push -u origin main
 ```
 
@@ -45,3 +45,4 @@ git push -u origin main
 ---
 
 > Observação: o ambiente atual não tem o comando `git` instalado, então não foi possível fazer a publicação automaticamente daqui.
+
